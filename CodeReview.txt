@@ -1,0 +1,2 @@
+Code Review
+1.Since in the current project, we are using testng and not Junit, we should remove Junit dependency from pom
