@@ -1,2 +1,6 @@
 Code Review
 1.Since in the current project, we are using testng and not Junit, we should remove Junit dependency from pom
+2.Updated the chrome driver file since old file was corrupted
+3.Added setup and tearDown method in SignInTest Class
+4.Added chrome options to disable the browser location notification
+5.SignIn button in the modal was present in a frame, code to switch on the frame was missing, added that.

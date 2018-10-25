@@ -2,6 +2,7 @@ import com.sun.javafx.PlatformUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -11,10 +12,13 @@ public class SignInTest {
 
     WebDriver driver;
 
+
     @BeforeMethod
     private void setUp() {
         setDriverPath();
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-notifications");
+        driver = new ChromeDriver(options);
     }
 
     @Test
@@ -25,7 +29,7 @@ public class SignInTest {
 
         driver.findElement(By.linkText("Your trips")).click();
         driver.findElement(By.id("SignIn")).click();
-
+        driver.switchTo().frame(driver.findElement(By.id("modal_window")));
         driver.findElement(By.id("signInButton")).click();
 
         String errors1 = driver.findElement(By.id("errors1")).getText();
@@ -42,7 +46,6 @@ public class SignInTest {
     }
 
     private void setDriverPath() {
-        System.out.println(PlatformUtil.isWindows());
         if (PlatformUtil.isMac()) {
             System.setProperty("webdriver.chrome.driver", "chromedriver");
         }
