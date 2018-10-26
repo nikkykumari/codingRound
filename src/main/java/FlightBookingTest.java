@@ -1,12 +1,5 @@
-import com.sun.javafx.PlatformUtil;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -14,17 +7,11 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class FlightBookingTest {
-
-    WebDriver driver;
+public class FlightBookingTest extends BaseClass {
 
     @BeforeMethod
     private void setUp() {
-        setDriverPath();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-notifications");
-        driver = new ChromeDriver(options);
-        PageFactory.initElements(driver, this);
+        setDriver();
     }
 
 
@@ -55,9 +42,9 @@ public class FlightBookingTest {
         destinationOptions.get(0).click();
         List<WebElement> listOfRows = driver.findElements(By.xpath("//*[@id='ui-datepicker-div']/div[1]/table/tbody/tr"));
         int noOfRows = listOfRows.size();
-        List<WebElement> listOfCol = driver.findElements(By.xpath("//*[@id='ui-datepicker-div']/div[1]/table/tbody/tr["+noOfRows+"]/td[@data-event='click']"));
+        List<WebElement> listOfCol = driver.findElements(By.xpath("//*[@id='ui-datepicker-div']/div[1]/table/tbody/tr[" + noOfRows + "]/td[@data-event='click']"));
         int noOfCol = listOfCol.size();
-        driver.findElement(By.xpath("//*[@id='ui-datepicker-div']/div[1]/table/tbody/tr["+noOfRows+"]/td["+noOfCol+"]/a")).click();
+        driver.findElement(By.xpath("//*[@id='ui-datepicker-div']/div[1]/table/tbody/tr[" + noOfRows + "]/td[" + noOfCol + "]/a")).click();
 
         //all fields filled in. Now click on search
         driver.findElement(By.id("SearchBtn")).click();
@@ -68,41 +55,8 @@ public class FlightBookingTest {
 
     }
 
-
-    private void waitFor(int durationInMilliSeconds) {
-        try {
-            Thread.sleep(durationInMilliSeconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
-
-
-    private boolean isElementPresent(By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    private void setDriverPath() {
-        if (PlatformUtil.isMac()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver");
-        }
-        if (PlatformUtil.isWindows()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        }
-        if (PlatformUtil.isLinux()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver_linux");
-        }
-    }
-
     @AfterMethod
     private void tearDown() {
-        if (driver != null) {
-            // driver.quit();
-        }
+        quitDriver();
     }
 }

@@ -1,24 +1,14 @@
-import com.sun.javafx.PlatformUtil;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class SignInTest {
-
-    WebDriver driver;
-
+public class SignInTest extends BaseClass {
 
     @BeforeMethod
     private void setUp() {
-        setDriverPath();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-notifications");
-        driver = new ChromeDriver(options);
+        setDriver();
     }
 
     @Test
@@ -36,30 +26,8 @@ public class SignInTest {
         Assert.assertTrue(errors1.contains("There were errors in your submission"));
     }
 
-    private void waitFor(int durationInMilliSeconds) {
-        try {
-            Thread.sleep(durationInMilliSeconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
-
-    private void setDriverPath() {
-        if (PlatformUtil.isMac()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver");
-        }
-        if (PlatformUtil.isWindows()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        }
-        if (PlatformUtil.isLinux()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver_linux");
-        }
-    }
-
     @AfterMethod
-    private void tearDown(){
-        if(driver != null){
-            driver.quit();
-        }
+    private void tearDown() {
+        quitDriver();
     }
 }

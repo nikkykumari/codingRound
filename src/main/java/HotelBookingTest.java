@@ -10,9 +10,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class HotelBookingTest {
-
-    WebDriver driver;
+public class HotelBookingTest extends BaseClass {
 
     @FindBy(linkText = "Hotels")
     private WebElement hotelLink;
@@ -29,10 +27,7 @@ public class HotelBookingTest {
 
     @BeforeMethod
     private void setUp() {
-        setDriverPath();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-notifications");
-        driver = new ChromeDriver(options);
+        setDriver();
         PageFactory.initElements(driver, this);
     }
 
@@ -47,23 +42,9 @@ public class HotelBookingTest {
         searchButton.click();
     }
 
-    private void setDriverPath() {
-        if (PlatformUtil.isMac()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver");
-        }
-        if (PlatformUtil.isWindows()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        }
-        if (PlatformUtil.isLinux()) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver_linux");
-        }
-    }
-
     @AfterMethod
     private void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        quitDriver();
     }
 
 }
