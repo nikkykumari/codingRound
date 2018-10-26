@@ -34,7 +34,6 @@ public class SignInTest {
 
         String errors1 = driver.findElement(By.id("errors1")).getText();
         Assert.assertTrue(errors1.contains("There were errors in your submission"));
-        driver.quit();
     }
 
     private void waitFor(int durationInMilliSeconds) {

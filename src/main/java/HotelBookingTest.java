@@ -2,13 +2,17 @@ import com.sun.javafx.PlatformUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class HotelBookingTest {
 
-    WebDriver driver = new ChromeDriver();
+    WebDriver driver;
 
     @FindBy(linkText = "Hotels")
     private WebElement hotelLink;
@@ -22,10 +26,18 @@ public class HotelBookingTest {
     @FindBy(id = "travellersOnhome")
     private WebElement travellerSelection;
 
+
+    @BeforeMethod
+    private void setUp() {
+        setDriverPath();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-notifications");
+        driver = new ChromeDriver(options);
+        PageFactory.initElements(driver, this);
+    }
+
     @Test
     public void shouldBeAbleToSearchForHotels() {
-        setDriverPath();
-
         driver.get("https://www.cleartrip.com/");
         hotelLink.click();
 
@@ -33,9 +45,6 @@ public class HotelBookingTest {
 
         new Select(travellerSelection).selectByVisibleText("1 room, 2 adults");
         searchButton.click();
-
-        driver.quit();
-
     }
 
     private void setDriverPath() {
@@ -47,6 +56,13 @@ public class HotelBookingTest {
         }
         if (PlatformUtil.isLinux()) {
             System.setProperty("webdriver.chrome.driver", "chromedriver_linux");
+        }
+    }
+
+    @AfterMethod
+    private void tearDown() {
+        if (driver != null) {
+            driver.quit();
         }
     }
 

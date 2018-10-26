@@ -4,3 +4,5 @@ Code Review
 3.Added setup and tearDown method in SignInTest Class
 4.Added chrome options to disable the browser location notification
 5.SignIn button in the modal was present in a frame, code to switch on the frame was missing, added that.
+6.Added setup and tearDown method in HotelBookingTest Class
+7.The webElements was not initialized, they were throwing null pointer exception so initalizing the webElements using page Factory
